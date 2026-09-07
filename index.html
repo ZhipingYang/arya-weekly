@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arya 周报 | 2026.08.31 - 09.06 (第36周)</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#2d5af0;
+  --primary-light:#eef2ff;
+  --success:#10b981;
+  --success-light:#ecfdf5;
+  --warning:#f59e0b;
+  --warning-light:#fffbeb;
+  --danger:#ef4444;
+  --danger-light:#fef2f2;
+  --value:#6366f1;
+  --bg:#f0f4f8;
+  --card:#ffffff;
+  --text:#1e293b;
+  --text2:#64748b;
+  --border:#e2e8f0;
+  --shadow:0 4px 24px rgba(45,90,240,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:0 0 40px}
+
+/* TOP NAVBAR */
+.nav-bar{background:#ffffff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
+.nav-inner{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.nav-left{display:flex;align-items:center;gap:16px}
+.nav-brand{font-size:18px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-brand span{background:var(--primary);color:#fff;padding:2px 8px;border-radius:6px;font-size:12px}
+.report-select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:#f8fafc;outline:none;cursor:pointer}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn-action{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:#2244bb}
+.btn-outline{background:#fff;border:1px solid var(--border);color:var(--text2)}
+.btn-outline:hover{background:#f1f5f9;color:var(--text)}
+
+.container{max-width:1400px;margin:24px auto 0;padding:0 20px}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#2d5af0 0%,#6366f1 100%);border-radius:20px;padding:36px 40px;color:#fff;margin-bottom:30px;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(45,90,240,0.2)}
+.header::after{content:'';position:absolute;top:-50%;right:-10%;width:320px;height:320px;background:rgba(255,255,255,.08);border-radius:50%}
+.header h1{font-size:28px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.header .sub{font-size:15px;opacity:.9;margin-bottom:12px}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;backdrop-filter:blur(4px)}
+
+/* SECTION & CARDS */
+.section{margin-bottom:32px}
+.section-title{font-size:20px;font-weight:700;color:var(--primary);margin-bottom:16px;padding-left:14px;border-left:4px solid var(--primary);display:flex;align-items:center;gap:10px}
+.section-title .num{background:var(--primary);color:#fff;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+.card{background:var(--card);border-radius:16px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px;transition:transform .2s}
+.card:hover{transform:translateY(-2px)}
+
+/* KPI GRID */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
+.kpi-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.blue::before{background:var(--primary)}
+.kpi-card.green::before{background:var(--success)}
+.kpi-card.orange::before{background:var(--warning)}
+.kpi-card.purple::before{background:var(--value)}
+.kpi-card.red::before{background:var(--danger)}
+.kpi-val{font-size:32px;font-weight:800;color:var(--primary);margin:8px 0 4px}
+.kpi-card.green .kpi-val{color:var(--success)}
+.kpi-card.orange .kpi-val{color:var(--warning)}
+.kpi-card.purple .kpi-val{color:var(--value)}
+.kpi-card.red .kpi-val{color:var(--danger)}
+.kpi-label{font-size:13px;color:var(--text2)}
+
+/* CHARTS */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-box{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.chart-box .chart-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.chart-container{width:100%;height:320px}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f1f5f9;color:var(--text2);font-weight:600;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:#f8fafc}
+.tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.tag-s{background:#fee2e2;color:#dc2626}
+.tag-a{background:#fef3c7;color:#d97706}
+.tag-b{background:#dbeafe;color:#2563eb}
+.tag-won{background:#d1fae5;color:#059669}
+.tag-prog{background:#dbeafe;color:#2563eb}
+.tag-new{background:#ede9fe;color:#7c3aed}
+.tag-renew{background:#fef3c7;color:#d97706}
+.tag-upgrade{background:#fce7f3;color:#db2777}
+.tag-ka{background:#fef3c7;color:#b45309;font-weight:700}
+.tag-high{background:#fee2e2;color:#b91c1c}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:20px}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--primary);background:#fff}
+.timeline-item.done::before{background:var(--primary)}
+.timeline-item .day{font-weight:700;color:var(--primary);font-size:14px}
+.timeline-item .events{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.evt{font-size:12px;padding:3px 10px;border-radius:8px;background:#f1f5f9;color:var(--text2)}
+.evt.deal{background:#d1fae5;color:#059669}
+.evt.call{background:#dbeafe;color:#2563eb}
+.evt.lead{background:#ede9fe;color:#7c3aed}
+.evt.service{background:#fef3c7;color:#d97706}
+.evt.target{background:#fee2e2;color:#dc2626}
+
+.priority{display:inline-block;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:12px;font-weight:700;color:#fff}
+.p0{background:var(--danger)}
+.p1{background:var(--warning)}
+.p2{background:var(--primary)}
+
+.insight-card{border-left:4px solid var(--value);padding:16px 20px;background:#f8f9ff;border-radius:0 12px 12px 0;margin-bottom:12px}
+.insight-card h4{color:var(--value);font-size:14px;margin-bottom:6px}
+.insight-card p{font-size:13px;color:var(--text2)}
+.highlight-card{border-left:4px solid var(--success);padding:16px 20px;background:#f0fdf4;border-radius:0 12px 12px 0;margin-bottom:12px}
+.highlight-card h4{color:var(--success);font-size:14px;margin-bottom:6px}
+.highlight-card p{font-size:13px;color:var(--text2)}
+.problem-card{border-left:4px solid var(--danger);padding:16px 20px;background:#fef2f2;border-radius:0 12px 12px 0;margin-bottom:12px}
+.problem-card h4{color:var(--danger);font-size:14px;margin-bottom:6px}
+.problem-card p{font-size:13px;color:var(--text2)}
+
+.footer{text-align:center;padding:40px 20px;color:var(--text2);font-size:13px}
+.toast{position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;z-index:1000}
+
+@media(max-width:768px){
+  .chart-grid{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .header{padding:24px 20px}
+  .header h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="nav-bar">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="./index.html" class="nav-brand">
+        📊 <span>周报系统</span> Arya 个人经营周报
+      </a>
+      <select class="report-select" onchange="location.href=this.value">
+        <option value="./reports/2026-08-31_2026-09-06.html" selected>2026.08.31 - 09.06 (第36周) [最新]</option>
+      </select>
+    </div>
+    <div class="nav-right">
+      <button class="btn-action btn-outline" onclick="copyLink()">🔗 复制访问链接</button>
+      <a href="https://github.com/ZhipingYang/arya-weekly" target="_blank" class="btn-action btn-primary">GitHub 仓库</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <h1>📊 Arya 个人经营周报</h1>
+  <div class="sub">2026年8月31日（周一）— 9月6日（周日）| 第36周 · 客户运营三组（零售）</div>
+  <div class="badge">📈 本周新签 ¥35,562 | 续约 ¥4,414 | 总成交 ¥39,976 (4.0万) | 锁定待落地高意向 ¥37,040</div>
+</div>
+
+<!-- 模块一：任务完成率分析 -->
+<div class="section">
+  <div class="section-title"><span class="num">1</span> 任务完成率分析</div>
+  <div class="kpi-row">
+    <div class="kpi-card blue">
+      <div class="kpi-label">本周线索数</div>
+      <div class="kpi-val">33</div>
+      <div class="kpi-label">SQL 14条 · 转商机 6条</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">成交总金额</div>
+      <div class="kpi-val">¥39,976</div>
+      <div class="kpi-label">13个去重订单 · 17笔明细</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">商机总金额</div>
+      <div class="kpi-val">¥27,157</div>
+      <div class="kpi-label">27条商机 · 赢单11个</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">通话时长</div>
+      <div class="kpi-val">52<span style="font-size:16px">分钟</span></div>
+      <div class="kpi-label">10通 · 均分75.6 · 深度3通</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-box">
+      <div class="chart-title">📌 订单笔数分布（新签 vs 续约）</div>
+      <div id="chart_order_type" class="chart-container"></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">💰 收入构成分析（金额与占比）</div>
+      <div id="chart_revenue" class="chart-container"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h4 style="color:var(--value);margin-bottom:8px">📌 完成率深度洞察</h4>
+    <p style="font-size:13px;color:var(--text2)">
+      • <b>KA大单突破奠定基本盘</b>：惠州酷友网络科技有限公司成功斩获企业版新签 <b>¥24,480</b>，占本周总成交金额的 <b>61.2%</b>，展现了针对KA大型零售客户的攻坚与转化能力。<br>
+      • <b>多席位加购亮点凸显</b>：广州健达贸易有限公司本周连下4笔新签订单（含席位加购与3人团队版模板会员），合计贡献 <b>¥5,192</b>，客户团队扩容意愿强烈。<br>
+      • <b>续约大盘客单偏低</b>：本周续约5笔共 <b>¥4,414</b>，最高为时代吉利（四川）动力电池 <b>¥1,878</b>，续约平均客单仅 ¥883，主要集中于单人低阶模板与素材包，下周需启动S0挽回与增值升档策略。<br>
+      • <b>制造业与连锁零售齐头并进</b>：本周订单横跨3C数码、电商批发、医疗健康、汽车零售、材料化工及工业仪器，业务行业渗透健康度良好。
+    </p>
+  </div>
+</div>
+
+<!-- 模块二：重点跟进客户数据（核心重点与待落地大客户） -->
+<div class="section">
+  <div class="section-title"><span class="num">2</span> 重点跟进客户数据（高意向待落袋客户池）</div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>客户名称</th>
+          <th>客户类型</th>
+          <th>预计金额</th>
+          <th>意向度</th>
+          <th>关键进展</th>
+          <th>核心卡点与跟进动作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4">
+          <td><b>上海旺旺商贸有限公司</b></td>
+          <td><span class="tag tag-ka">KA大企</span></td>
+          <td style="color:var(--success);font-weight:700">¥15,000</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td><span class="tag tag-won">合同审核中</span></td>
+          <td>法务与合同审批流程流转中，每日跟进法务审批进度，确保本周完成盖章闭环</td>
+        </tr>
+        <tr style="background:#f0fdf4">
+          <td><b>吉利汽车研究院（宁波）有限公司</b></td>
+          <td><span class="tag tag-ka">KA大企</span></td>
+          <td style="color:var(--success);font-weight:700">¥11,000</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td><span class="tag tag-won">打款中</span></td>
+          <td>已走完采购审批，财务排期打款中，紧密对接财务接口人锁定到账通知</td>
+        </tr>
+        <tr>
+          <td><b>26年续费+杭州中美华东制药有限公司</b></td>
+          <td><span class="tag tag-ka">知名医药</span></td>
+          <td style="color:var(--primary);font-weight:700">¥3,600</td>
+          <td>⭐⭐⭐⭐</td>
+          <td><span class="tag tag-prog">合同审核中</span></td>
+          <td>续费合同审核中，针对26年提前锁定与服务条款核对，跟进用印流程</td>
+        </tr>
+        <tr>
+          <td><b>26年续费-中免集团三亚市内免税店有限公司</b></td>
+          <td><span class="tag tag-ka">央国企/免税</span></td>
+          <td style="color:var(--primary);font-weight:700">¥3,840</td>
+          <td>⭐⭐⭐⭐</td>
+          <td><span class="tag tag-prog">9月底打款</span></td>
+          <td>客户已确认采购意向，配合客户请款预算节点，锁定9月底打款批次</td>
+        </tr>
+        <tr>
+          <td><b>北京正兴德茶叶有限公司</b></td>
+          <td><span class="tag tag-b">老字号零售</span></td>
+          <td style="color:var(--primary);font-weight:700">¥3,600</td>
+          <td>⭐⭐⭐⭐</td>
+          <td><span class="tag tag-prog">申请款项中</span></td>
+          <td>内部立项已过，正在发起财务付款申请，协助提供发票与开户信息</td>
+        </tr>
+        <tr>
+          <td>北京医脉互通科技有限公司</td>
+          <td>中小企/医疗</td>
+          <td>¥3,300</td>
+          <td>⭐⭐⭐</td>
+          <td>待跟进续费</td>
+          <td>商机跟进中，沟通增加AI创作席位与延长周期方案</td>
+        </tr>
+        <tr>
+          <td>广东博予工业材料有限公司</td>
+          <td>制造业</td>
+          <td>¥1,795</td>
+          <td>⭐⭐⭐</td>
+          <td>待跟进续费</td>
+          <td>工业仪器素材需求沟通，待推进决策人沟通</td>
+        </tr>
+        <tr>
+          <td>曼卡龙珠宝股份有限公司</td>
+          <td>连锁零售</td>
+          <td>¥1,198</td>
+          <td>⭐⭐⭐</td>
+          <td>待跟进续费</td>
+          <td>珠宝零售宣传物料模板需求，建议提供行业定制方案</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:14px;padding:12px 16px;background:#fef2f2;border-radius:8px;border-left:4px solid var(--danger)">
+      <b style="color:var(--danger)">🚨 下一步关键战略动作：</b>
+      <span style="font-size:13px;color:#991b1b">针对本季度到期未续的全部大客户，<b>全面启动放价 S0 策略精准挽回</b>！以极致性价比方案突破预算防线，全力锁定客户续约生命周期！</span>
+    </div>
+  </div>
+</div>
+
+<!-- 模块三：本周新增意向客户 -->
+<div class="section">
+  <div class="section-title"><span class="num">3</span> 本周新增意向客户与线索沉淀</div>
+  <div class="chart-grid">
+    <div class="chart-box">
+      <div class="chart-title">📊 线索转化阶段分布（共33条）</div>
+      <div id="chart_lead_grade" class="chart-container"></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">🏭 线索与商机行业分布</div>
+      <div id="chart_lead_industry" class="chart-container"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>客户名称</th>
+          <th>联系人/线索</th>
+          <th>行业</th>
+          <th>线索阶段</th>
+          <th>外呼/触达情况</th>
+          <th>核心需求与跟进结论</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>江西航同电气科技有限公司</b></td>
+          <td>Angeline 🍓</td>
+          <td>制造业/电子通信</td>
+          <td><span class="tag tag-won">已转商机/赢单</span></td>
+          <td>深度跟进</td>
+          <td>企业商用模板需求，本周已顺利成单落地 3人模板会员</td>
+        </tr>
+        <tr>
+          <td><b>陕西京小盒商贸有限公司</b></td>
+          <td>京小盒</td>
+          <td>连锁零售/电商</td>
+          <td><span class="tag tag-won">已转商机/赢单</span></td>
+          <td>电话高效对接</td>
+          <td>精选素材下载需求明确，已快速成交高性价比企业组合包</td>
+        </tr>
+        <tr>
+          <td><b>贵阳吉兴商贸有限责任公司</b></td>
+          <td>干杯無忧</td>
+          <td>连锁零售</td>
+          <td><span class="tag tag-a">销售认可线索(SQL)</span></td>
+          <td>已建立联系</td>
+          <td>日常零售海报与活动模板需求，进入商机方案报价阶段</td>
+        </tr>
+        <tr>
+          <td><b>荻丽贸易（广州）有限公司</b></td>
+          <td>北辰85352</td>
+          <td>连锁零售/贸易</td>
+          <td><span class="tag tag-b">潜在线索(Lead)</span></td>
+          <td>新录入分配</td>
+          <td>查看官网模板会员，已安排首轮电销需求摸底</td>
+        </tr>
+        <tr>
+          <td><b>GD的团队</b></td>
+          <td>木白28032</td>
+          <td>连锁零售</td>
+          <td><span class="tag tag-b">潜在线索(Lead)</span></td>
+          <td>待补服务记录</td>
+          <td>团队协作设计需求，待回访完善CRM跟进档案</td>
+        </tr>
+        <tr>
+          <td><b>用户05x1m31M的团队</b></td>
+          <td>用户05x1m31M</td>
+          <td>电商贸易</td>
+          <td><span class="tag tag-b">潜在线索(Lead)</span></td>
+          <td>待深入沟通</td>
+          <td>花瓣素材下载意向，待进一步确认公司授权主体</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:12px;color:var(--text2)">💡 本周共承接33条线索，其中销售认可线索(SQL) 14条，成功转商机 6条，线索转商机率保持稳定。</p>
+  </div>
+</div>
+
+<!-- 模块四：本周商机订单沉淀 -->
+<div class="section">
+  <div class="section-title"><span class="num">4</span> 本周商机与订单沉淀</div>
+  <div class="kpi-row">
+    <div class="kpi-card green">
+      <div class="kpi-label">成交去重订单</div>
+      <div class="kpi-val">13</div>
+      <div class="kpi-label">明细 17 笔</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">本周新增商机</div>
+      <div class="kpi-val">27</div>
+      <div class="kpi-label">商机总额 ¥27,157</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">新签客户数</div>
+      <div class="kpi-val">8</div>
+      <div class="kpi-label">贡献 ¥35,562</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">续约客户数</div>
+      <div class="kpi-val">5</div>
+      <div class="kpi-label">贡献 ¥4,414</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-box">
+      <div class="chart-title">📈 商机推进状态分布</div>
+      <div id="chart_opp_status" class="chart-container"></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">🏆 本周成单金额排行榜 TOP 10</div>
+      <div id="chart_top_won" class="chart-container"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;overflow-x:auto">
+    <h4 style="margin-bottom:12px;color:var(--primary)">📋 13 个去重成交订单明细全览（实付总额：¥39,976.01）</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>订单类型</th>
+          <th>客户名称</th>
+          <th>成交金额</th>
+          <th>一级行业</th>
+          <th>二级行业</th>
+          <th>采购产品版本与方案</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-new">新签 KA</span></td>
+          <td><b>惠州酷友网络科技有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥24,480.00</td>
+          <td>连锁零售</td>
+          <td>3C数码</td>
+          <td>稿定内容中台·企业版·模板会员（不含豆）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>广州健达贸易有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥5,192.00</td>
+          <td>连锁零售</td>
+          <td>电商（贸易批发）</td>
+          <td>团队版·模板会员_企业商用_3人（含加购席位，2笔共¥5,192）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>广州养和医药连锁股份有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥2,000.00</td>
+          <td>连锁零售</td>
+          <td>医疗保健</td>
+          <td>企业版·AI创作会员-1年（500稿豆/席位/月）+ 模板权益</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-renew">续约</span></td>
+          <td><b>时代吉利（四川）动力电池有限公司</b></td>
+          <td style="color:var(--warning);font-weight:700">¥1,878.00</td>
+          <td>连锁零售</td>
+          <td>汽车零售</td>
+          <td>团队版·大会员-1年（500豆/席位/月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>奇只好玩文化创意（深圳）有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥1,299.00</td>
+          <td>连锁零售</td>
+          <td>电商（贸易批发）</td>
+          <td>稿定素材·实物转售授权单购-V2（拍信+自产）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-renew">续约</span></td>
+          <td><b>苏州舜康商贸有限公司</b></td>
+          <td style="color:var(--warning);font-weight:700">¥999.00</td>
+          <td>连锁零售</td>
+          <td>电商（贸易批发）</td>
+          <td>精选素材组合包·企业商用·高阶档（1年+1个月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>东莞市康丽化妆品有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥794.01</td>
+          <td>连锁零售</td>
+          <td>美容美妆</td>
+          <td>团队版·大会员-1年（300豆/席位/月，个人升级企业商用）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>陕西京小盒商贸有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥699.00</td>
+          <td>连锁零售</td>
+          <td>电商（贸易批发）</td>
+          <td>精选素材组合包·企业商用·标准档（1年+1个月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>江西航同电气科技有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥659.00</td>
+          <td>制造业</td>
+          <td>电子及通信设备</td>
+          <td>团队版·模板会员_企业商用_3人（1年+1个月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-renew">续约</span></td>
+          <td><b>广东大族粤铭激光集团股份有限公司</b></td>
+          <td style="color:var(--warning);font-weight:700">¥659.00</td>
+          <td>制造业</td>
+          <td>工业仪器制造业</td>
+          <td>团队版·模板会员_企业商用_3人（1年+1个月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-renew">续约</span></td>
+          <td><b>北京老鼎丰食品有限公司</b></td>
+          <td style="color:var(--warning);font-weight:700">¥439.00</td>
+          <td>连锁零售</td>
+          <td>食品生鲜</td>
+          <td>团队版·模板会员_企业商用_1人（1年+1个月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-renew">续约</span></td>
+          <td><b>中粮家佳康（湖北）有限公司</b></td>
+          <td style="color:var(--warning);font-weight:700">¥439.00</td>
+          <td>连锁零售</td>
+          <td>食品生鲜</td>
+          <td>团队版·模板会员_企业商用_1人（1年+1个月）</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-new">新签</span></td>
+          <td><b>深圳市永顺烊电脑车缝制品有限公司</b></td>
+          <td style="color:var(--success);font-weight:700">¥439.00</td>
+          <td>制造业</td>
+          <td>材料化工</td>
+          <td>团队版·模板会员_企业商用_1人（1年+1个月）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 模块五：续费客户·大企跟进明细 -->
+<div class="section">
+  <div class="section-title"><span class="num">5</span> 续费客户·大企跟进明细及挽回战役</div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>客户名称</th>
+          <th>客户性质</th>
+          <th>当前状态</th>
+          <th>方案/金额</th>
+          <th>核心卡点</th>
+          <th>下一步动作与策略</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#fefce8">
+          <td><b>中免集团三亚市内免税店</b></td>
+          <td><span class="tag tag-ka">央企KA</span></td>
+          <td>已确认采购批次</td>
+          <td>¥3,840</td>
+          <td>等待9月内部采购款项排期</td>
+          <td>定期维护关系，锁定9月下旬请款打款流程</td>
+        </tr>
+        <tr style="background:#fefce8">
+          <td><b>杭州中美华东制药</b></td>
+          <td><span class="tag tag-ka">上市大企</span></td>
+          <td>合同审核中</td>
+          <td>¥3,600</td>
+          <td>26年续约条款法务审批中</td>
+          <td>跟进法务流程，协助提供资质说明促成盖章</td>
+        </tr>
+        <tr>
+          <td><b>时代吉利（四川）动力电池</b></td>
+          <td><span class="tag tag-de">吉利体系</span></td>
+          <td><span class="tag tag-won">已完成续约</span></td>
+          <td>¥1,878</td>
+          <td>顺利续费大会员</td>
+          <td>持续跟进吉利系其他板块（吉利汽车研究院1.1万打款中）</td>
+        </tr>
+        <tr>
+          <td><b>曼卡龙珠宝股份有限公司</b></td>
+          <td><span class="tag tag-de">上市大企</span></td>
+          <td>待跟进续费</td>
+          <td>¥1,198</td>
+          <td>门店宣传模板扩容决策</td>
+          <td>推送珠宝零售行业专属模板集，加快决策</td>
+        </tr>
+        <tr>
+          <td><b>广东大族粤铭激光集团</b></td>
+          <td><span class="tag tag-de">制造业大企</span></td>
+          <td><span class="tag tag-won">已完成续约</span></td>
+          <td>¥659</td>
+          <td>已保底续费3人版</td>
+          <td>下周跟进设计部门AI创作需求，寻求增购机会</td>
+        </tr>
+        <tr>
+          <td><b>吉利汽车控股（杭州）有限公司</b></td>
+          <td><span class="tag tag-de">吉利体系</span></td>
+          <td>待跟进续费</td>
+          <td>¥439</td>
+          <td>席位归属梳理中</td>
+          <td>协同吉利系整体对接，争取合并升级大企业版本</td>
+        </tr>
+        <tr style="background:#fef2f2">
+          <td><b>本季度全部未续大客户</b></td>
+          <td><span class="tag tag-s">流失预警</span></td>
+          <td><span class="tag tag-high">S0 放价挽回</span></td>
+          <td>S0 特惠底价方案</td>
+          <td>对原价续费有抗性/预算收紧</td>
+          <td><b>全量触达，释放S0底价优惠政策，强力促单挽回！</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 模块六：演示客户·价值传递深度分析 -->
+<div class="section">
+  <div class="section-title"><span class="num">6</span> 演示客户·价值传递深度分析（真实通话诊断）</div>
+  <div class="chart-grid">
+    <div class="chart-box">
+      <div class="chart-title">📞 通话质检评分分布（10通录音质检）</div>
+      <div id="chart_call_score" class="chart-container"></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">⏱️ 通话时长 vs 质检评分</div>
+      <div id="chart_call_scatter" class="chart-container"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h4 style="margin-bottom:12px;color:var(--primary)">🎯 关键通话深度剖析（基于智能质检诊断系统）</h4>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px">
+      <div class="highlight-card">
+        <h4>东莞市康丽化妆品 · 90分 · 10分27秒</h4>
+        <p><b>【优秀成单范例】</b>销售自报家门，顺畅核对企业授权主体。深挖需求确认个人升企业+花瓣素材下载，针对性推荐通用大会员方案。精准解答多账号混乱、旧会员折抵、误购退款，当场达成协议顺利促成成交！</p>
+      </div>
+      <div class="highlight-card">
+        <h4>未知线索大客户 · 85分 · 10分12秒</h4>
+        <p><b>【深度沟通诊断】</b>详细沟通设计素材商用规则与版权授权边界，清晰解答授权范围与开票流程，有效化解客户对版权侵权风险的顾虑，为后续推进方案奠定扎实信任基础。</p>
+      </div>
+      <div class="highlight-card">
+        <h4>GD595602023 · 84分 · 3分14秒</h4>
+        <p><b>【素材场景挖掘】</b>自报花瓣素材网身份，有效挖掘日常宣传海报制作需求。清晰讲解699标准档会员下载权限与团队席位，不强行推销AI，获得客户高度认可，转入微信办理开票。</p>
+      </div>
+      <div class="insight-card">
+        <h4>浅川02916 · 64分 · 2分06秒</h4>
+        <p><b>【版权合规提醒】</b>针对开通花瓣个人会员进行版权合规提示，讲解个人与企业商用区别，告知侵权风险。不足之处在于提示后未主动递进探寻企业升级方案，下周需补齐闭环话术。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 模块七：价值传递路径总览 -->
+<div class="section">
+  <div class="section-title"><span class="num">7</span> 价值传递路径总览</div>
+  <div class="chart-box">
+    <div class="chart-title">价值传递策略 → 重点客户 → 推进阶段（桑基图）</div>
+    <div id="chart_sankey" style="width:100%;height:400px"></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h4 style="margin-bottom:10px;color:var(--value)">💎 价值传递方式矩阵</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>传递策略</th>
+          <th>应用场景</th>
+          <th>核心客户</th>
+          <th>转化成效</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>KA企业中台定制方案</b></td>
+          <td>大型集团/多部门协同</td>
+          <td>惠州酷友网络、吉利汽车研究院</td>
+          <td><span class="tag tag-won">✅ 酷友斩获2.4万，吉利1.1万打款中</span></td>
+        </tr>
+        <tr>
+          <td><b>版权合规与风控方案</b></td>
+          <td>品牌知名企业/上市公司</td>
+          <td>上海旺旺商贸、杭州中美华东制药</td>
+          <td><span class="tag tag-prog">🔄 旺旺1.5万+中美华东3600 合同审核中</span></td>
+        </tr>
+        <tr>
+          <td><b>本季度S0放价挽回方案</b></td>
+          <td>到期未续/价格敏感大客户</td>
+          <td>未续大客户池、中免集团三亚市内免税店</td>
+          <td><span class="tag tag-prog">🔄 中免锁定9月底打款，S0全面推进</span></td>
+        </tr>
+        <tr>
+          <td><b>个人升企业商用融合</b></td>
+          <td>误购个人版/多账号需求</td>
+          <td>东莞市康丽化妆品、正兴德茶叶</td>
+          <td><span class="tag tag-won">✅ 康丽顺利成单，正兴德请款中</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 模块八：核心指标概览与转化漏斗 -->
+<div class="section">
+  <div class="section-title"><span class="num">8</span> 核心指标快照与经营漏斗</div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px">
+      <div style="text-align:center;padding:16px;background:#f8fafc;border-radius:12px;border-top:3px solid var(--primary)">
+        <div style="font-size:26px;font-weight:800;color:var(--primary)">33</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">新增线索数</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:#f8fafc;border-radius:12px;border-top:3px solid var(--purple)">
+        <div style="font-size:26px;font-weight:800;color:var(--value)">10</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">有效通话数</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:#f8fafc;border-radius:12px;border-top:3px solid var(--warning)">
+        <div style="font-size:26px;font-weight:800;color:var(--warning)">27</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">推进商机数</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:#f8fafc;border-radius:12px;border-top:3px solid var(--success)">
+        <div style="font-size:26px;font-weight:800;color:var(--success)">13</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">成交订单数</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:#f8fafc;border-radius:12px;border-top:3px solid var(--danger)">
+        <div style="font-size:26px;font-weight:800;color:var(--danger)">116</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px">服务跟进记录</div>
+      </div>
+    </div>
+    <div style="padding:14px;background:#f8fafc;border-radius:10px;text-align:center;font-size:13px;color:var(--text2)">
+      🔄 <b>五维转化漏斗</b>：线索 33 → 通话 10 → 商机 27 → 订单 13 (¥39,976) → 服务记录 116 条
+    </div>
+  </div>
+</div>
+
+<!-- 模块九：关键洞察与策略调整 -->
+<div class="section">
+  <div class="section-title"><span class="num">9</span> 关键洞察与策略调整</div>
+  <div class="insight-card">
+    <h4>🔥 洞察一：大型KA客户攻坚成效斐然</h4>
+    <p>酷友网络（¥24,480）成功签下企业版模板会员，吉利汽车研究院（¥11,000）进入打款期，上海旺旺（¥15,000）合同审核。大客户单产高、粘性强，必须集中优势精力做好定制化企业授权方案。</p>
+  </div>
+  <div class="insight-card">
+    <h4>🔥 洞察二：S0放价是本季度大企挽回的胜负手</h4>
+    <p>很多未续费大客户并非失去需求，而是受限于内部预算收缩或原方案定价抗性。<b>本季度未续大客户全部放价 S0 挽回</b>，通过阶梯优惠与增值权益组合，能最大限度盘活存量、降低流失。</p>
+  </div>
+  <div class="problem-card">
+    <h4>⚠️ 洞察三：日常服务过程管理需迅速规范</h4>
+    <p>本周116条服务记录中，存在 13条内容过短、8条未接记录待回访、SOP应用率为0%。当前处于业绩冲刺期，必须守住服务基本盘，严抓CRM记录规范与30分钟未接回访机制，避免商机因跟进脱节而流失。</p>
+  </div>
+</div>
+
+<!-- 模块十：本周过程展示 -->
+<div class="section">
+  <div class="section-title"><span class="num">10</span> 本周过程展示（8/31 — 9/6）</div>
+  <div class="card">
+    <div class="timeline">
+      <div class="timeline-item done">
+        <div class="day">8/31 周一 · 爆发开门红</div>
+        <div class="events">
+          <span class="evt deal">酷友网络 ¥24,480 企业版新签</span>
+          <span class="evt deal">健达贸易 2笔新签签约</span>
+          <span class="evt deal">养和医药 ¥2,000 企业版落地</span>
+          <span class="evt service">处理多条历史服务记录</span>
+        </div>
+      </div>
+      <div class="timeline-item done">
+        <div class="day">9/1 周二 · 高质沟通与深挖</div>
+        <div class="events">
+          <span class="evt call">康丽化妆品 10分27秒 90分优质通话</span>
+          <span class="evt deal">奇只好玩 ¥1,299 实物授权新签</span>
+          <span class="evt deal">康丽化妆品 ¥794.01 顺利成交</span>
+          <span class="evt call">浅川02916、GD等线索电话跟进</span>
+        </div>
+      </div>
+      <div class="timeline-item done">
+        <div class="day">9/2 周三 · 续约集中落地</div>
+        <div class="events">
+          <span class="evt deal">时代吉利动力电池 ¥1,878 续约</span>
+          <span class="evt deal">舜康商贸 ¥999 续约高阶素材</span>
+          <span class="evt deal">老鼎丰、中粮家佳康 续约落地</span>
+          <span class="evt lead">时代吉利人才发展组线索跟进</span>
+        </div>
+      </div>
+      <div class="timeline-item done">
+        <div class="day">9/3 周四 · 多笔商机突破</div>
+        <div class="events">
+          <span class="evt deal">航同电气 ¥659 电子制造新签</span>
+          <span class="evt deal">大族粤铭激光 ¥659 续约完成</span>
+          <span class="evt deal">京小盒 ¥699 · 永顺烊 ¥439 成交</span>
+          <span class="evt call">完成2通高分深度外呼</span>
+        </div>
+      </div>
+      <div class="timeline-item done">
+        <div class="day">9/4 - 9/6 周五至周末 · 重点大案推进</div>
+        <div class="events">
+          <span class="evt target">上海旺旺 ¥15,000 合同审核跟进</span>
+          <span class="evt target">吉利汽车研究院 ¥11,000 打款排期确认</span>
+          <span class="evt lead">荻丽贸易、GD团队线索录入</span>
+          <span class="evt service">下周S0挽回战役方案制定</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 模块十一：数据驱动·下周提升计划 -->
+<div class="section">
+  <div class="section-title"><span class="num">11</span> 数据驱动·下周提升计划</div>
+  <div class="card">
+    <h4 style="color:var(--danger);margin-bottom:12px">📊 关键指标缺口与改进措施</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>指标项</th>
+          <th>本周实际</th>
+          <th>下周建议目标</th>
+          <th>差距与挑战</th>
+          <th>针对性改进措施</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>成单金额</b></td>
+          <td>¥39,976</td>
+          <td><b>¥50,000+</b></td>
+          <td style="color:var(--warning)">锁定高意向即可达标</td>
+          <td>强力推动旺旺(1.5万)与吉利(1.1万)两单落地落袋</td>
+        </tr>
+        <tr>
+          <td><b>S0 挽回大客数</b></td>
+          <td>启动中</td>
+          <td><b>5 家以上</b></td>
+          <td style="color:var(--danger)">流失客户激活</td>
+          <td>执行本季度未续大客户全量放价S0，专人专案回访</td>
+        </tr>
+        <tr>
+          <td><b>通话数量/时长</b></td>
+          <td>10通 / 52分钟</td>
+          <td><b>20通 / 100分钟+</b></td>
+          <td style="color:var(--warning)">日均仅1-2通</td>
+          <td>固定每日上午 9:30-11:30 为集中外呼拓新时间段</td>
+        </tr>
+        <tr>
+          <td><b>未接回访率</b></td>
+          <td>8条未接待回访</td>
+          <td><b>100% 当日回访</b></td>
+          <td style="color:var(--danger)">存在8条遗留</td>
+          <td>建立未接电话当日闭环清单，下班前清零</td>
+        </tr>
+        <tr>
+          <td><b>服务记录质量</b></td>
+          <td>13条内容过短</td>
+          <td><b>过短率 &lt; 5%</b></td>
+          <td style="color:var(--danger)">记录不规范</td>
+          <td>严格执行CRM录入标准，详细记录客户场景、异议与下一步</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 模块十二：下周作战地图 -->
+<div class="section">
+  <div class="section-title"><span class="num">12</span> 下周作战地图与任务优先级</div>
+  <div class="card">
+    <h4 style="margin-bottom:12px;color:var(--primary)">🎯 重点任务优先级矩阵</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>优先级</th>
+          <th>核心任务</th>
+          <th>目标客户对象</th>
+          <th>预期产出金额/成效</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="priority p0">P0</span></td>
+          <td><b>超大单回款与签约收口</b></td>
+          <td>上海旺旺商贸（合同审核）、吉利汽车研究院（打款中）</td>
+          <td style="color:var(--success);font-weight:700">¥26,000+</td>
+        </tr>
+        <tr>
+          <td><span class="priority p0">P0</span></td>
+          <td><b>重点意向合同审批与请款</b></td>
+          <td>杭州中美华东制药（¥3,600）、北京正兴德茶叶（¥3,600）</td>
+          <td style="color:var(--success);font-weight:700">¥7,200</td>
+        </tr>
+        <tr>
+          <td><span class="priority p1">P1</span></td>
+          <td><b>本季度未续大客户全部放价S0挽回</b></td>
+          <td>本季度到期未续全量大客户池</td>
+          <td>盘活存量，预期挽回 3-5 单</td>
+        </tr>
+        <tr>
+          <td><span class="priority p1">P1</span></td>
+          <td><b>锁定月底采购批次</b></td>
+          <td>中免集团三亚市内免税店（¥3,840）</td>
+          <td>备齐审批单据，锁定9月打款</td>
+        </tr>
+        <tr>
+          <td><span class="priority p2">P2</span></td>
+          <td><b>27条商机中进行中商机推进</b></td>
+          <td>医脉互通(¥3,300)、博予材料(¥1,795)、曼卡龙(¥1,198)等16个商机</td>
+          <td>促进 2-3 单转化落地</td>
+        </tr>
+        <tr>
+          <td><span class="priority p2">P2</span></td>
+          <td><b>遗留待办与CRM质量治理</b></td>
+          <td>8条未接回访 + 13条过短记录补充 + GD团队等线索跟进</td>
+          <td>服务合规率 100%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h4 style="margin-bottom:12px;color:var(--primary)">📅 下周每日作战排期（9/7 — 9/11）</h4>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="day">9/7 周一 · 大单催化与未接清零</div>
+        <div class="events">
+          <span class="evt deal">吉利汽车研究院 打款凭证催收</span>
+          <span class="evt deal">上海旺旺商贸 合同法务审批跟进</span>
+          <span class="evt service">8条未接记录 100% 完成回呼</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="day">9/8 周二 · S0 挽回战役首轮出击</div>
+        <div class="events">
+          <span class="evt target">未续大客全面放价S0 电话集中触达</span>
+          <span class="evt deal">中美华东制药、正兴德茶叶 请款进度确认</span>
+          <span class="evt call">制造业潜在客户集中沟通</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="day">9/9 周三 · 中小企商机促单收网</div>
+        <div class="events">
+          <span class="evt deal">医脉互通、博予材料 方案定稿推进</span>
+          <span class="evt call">新增线索首呼摸底</span>
+          <span class="evt service">CRM记录规范抽查自检</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="day">9/10 周四 · 深度演示与需求拓展</div>
+        <div class="events">
+          <span class="evt call">意向客户远程设计功能深度演示</span>
+          <span class="evt deal">S0 意向大客户方案二次协商</span>
+          <span class="evt deal">曼卡龙珠宝 等零售客户跟进</span>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="day">9/11 周五 · 周度回款闭环与下周备战</div>
+        <div class="events">
+          <span class="evt deal">本周到账金额核对与订单生效确认</span>
+          <span class="evt target">中免集团三亚店 9月下旬排期确认</span>
+          <span class="evt service">下周作战目标与策略复盘</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 模块十三：本周未完成目标反思 -->
+<div class="section">
+  <div class="section-title"><span class="num">13</span> 本周未完成目标反思及解决方案</div>
+  <div class="card">
+    <h4 style="color:var(--danger);margin-bottom:10px">📋 痛点与差距反思</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>领域</th>
+          <th>实际状况</th>
+          <th>背后深层原因剖析</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>有效外呼量偏少</b></td>
+          <td>全周通话10通/52分钟</td>
+          <td>精力过度被大单谈判与合同商务流程占用，导致主动外呼拓新时间被压缩。</td>
+        </tr>
+        <tr>
+          <td><b>续约客单价偏低</b></td>
+          <td>5单续约均价仅 ¥883</td>
+          <td>续约沟通中习惯于"按原价续"，缺乏主动向客户推荐多席位、AI创作及大会员升档意识。</td>
+        </tr>
+        <tr>
+          <td><b>服务记录过程欠缺</b></td>
+          <td>13条过短，8条未接，SOP 0%</td>
+          <td>重签约促成、轻过程沉淀，未养成随手记录详尽沟通细节的习惯，存在客户交接与复购断层隐患。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h4 style="color:var(--success);margin-bottom:10px">✅ 针对性落地攻坚举措</h4>
+    <p style="font-size:13px;color:var(--text2)">
+      1. <b>时间盒管理</b>：严格划分商务攻坚时间与电话拓新时间，每日雷打不动外呼不少于4通。<br>
+      2. <b>续约升档组合拳</b>：借力 <b>本季度未续大客户全部放价 S0 挽回</b> 契机，在提供降价诚意的同时捆绑更长年限或多席位，提升综合产出。<br>
+      3. <b>服务质量闭环考核</b>：对未接电话设置日历提醒，当天必须完成二次回拨；服务记录字数不低于50字。
+    </p>
+  </div>
+</div>
+
+<!-- 模块十四：可以分享的工作价值点 -->
+<div class="section">
+  <div class="section-title"><span class="num">14</span> 本周可以分享的工作价值点与赋能沉淀</div>
+  <div class="highlight-card">
+    <h4>✨ 价值点一：酷友网络 2.4 万元 KA 新签全流程经验</h4>
+    <p style="font-size:13px">提炼针对零售连锁大型企业「多席位协同需求调研 → 版权合规背书 → 中台企业版方案定制」的成套谈判逻辑，可在团队晨会中做专题案例分享。</p>
+  </div>
+  <div class="highlight-card">
+    <h4>✨ 价值点二：S0 放价大客户精准防守与挽回策略</h4>
+    <p style="font-size:13px">系统梳理流失客户/价格敏感客户心理防御，通过 S0 底价策略打破僵局，换取续约回流与品牌续订的实操打法，为组内成员提供攻坚武器库。</p>
+  </div>
+  <div class="highlight-card">
+    <h4>✨ 价值点三：东莞市康丽化妆品 90 分高分通话复盘</h4>
+    <p style="font-size:13px">个人误购退费 + 升级企业大会员 + 账号融合处理的顺畅衔接，展现了极强的专业度与客户服务温度，录音可作为优秀通话教学样例沉淀。</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Arya 个人经营周报 | 2026.08.31 - 09.06 (第36周) | 纷享销客 CRM 数据口径</p>
+  <p style="margin-top:4px">由 AI 自动化系统生成 · 支持历史周报归档与永久在线访问</p>
+</div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">已复制链接到剪贴板！</div>
+
+<script>
+// 订单笔数分布
+var c1 = echarts.init(document.getElementById('chart_order_type'));
+c1.setOption({
+  tooltip: {trigger: 'item', formatter: '{b}: {c} 笔 ({d}%)'},
+  legend: {bottom: 0, textStyle: {fontSize: 12}},
+  series: [{
+    type: 'pie',
+    radius: ['45%', '72%'],
+    center: ['50%', '45%'],
+    label: {show: true, formatter: '{b}
+{c}笔', fontSize: 12},
+    data: [
+      {value: 12, name: '新签订单明细', itemStyle: {color: '#6366f1'}},
+      {value: 5, name: '续约订单明细', itemStyle: {color: '#f59e0b'}}
+    ]
+  }]
+});
+
+// 收入构成分析
+var c2 = echarts.init(document.getElementById('chart_revenue'));
+c2.setOption({
+  tooltip: {trigger: 'item', formatter: '{b}: ¥{c} ({d}%)'},
+  legend: {bottom: 0, textStyle: {fontSize: 12}},
+  series: [{
+    type: 'pie',
+    radius: ['45%', '72%'],
+    center: ['50%', '45%'],
+    label: {show: true, formatter: '{b}
+¥{c}', fontSize: 11},
+    data: [
+      {value: 35562.01, name: '新签金额 (89.0%)', itemStyle: {color: '#2d5af0'}},
+      {value: 4414.00, name: '续约金额 (11.0%)', itemStyle: {color: '#f59e0b'}}
+    ]
+  }]
+});
+
+// 线索转化阶段分布
+var c3 = echarts.init(document.getElementById('chart_lead_grade'));
+c3.setOption({
+  tooltip: {trigger: 'axis'},
+  grid: {left: 60, right: 20, top: 20, bottom: 40},
+  xAxis: {type: 'category', data: ['销售认可线索(SQL)', '潜在线索(Lead)', '转商机'], axisLabel: {fontSize: 12}},
+  yAxis: {type: 'value', axisLabel: {fontSize: 11}},
+  series: [{
+    type: 'bar',
+    barWidth: 44,
+    data: [
+      {value: 14, itemStyle: {color: '#f59e0b'}},
+      {value: 13, itemStyle: {color: '#2d5af0'}},
+      {value: 6, itemStyle: {color: '#10b981'}}
+    ],
+    label: {show: true, position: 'top', fontSize: 13, fontWeight: 700}
+  }]
+});
+
+// 行业分布
+var c4 = echarts.init(document.getElementById('chart_lead_industry'));
+c4.setOption({
+  tooltip: {trigger: 'axis'},
+  grid: {left: 110, right: 30, top: 10, bottom: 20},
+  yAxis: {type: 'category', data: ['连锁零售/电商', '制造业/电子仪器', '生物医药研发', '能源/其他'].reverse(), axisLabel: {fontSize: 11}},
+  xAxis: {type: 'value', axisLabel: {fontSize: 11}},
+  series: [{
+    type: 'bar',
+    barWidth: 20,
+    data: [15, 7, 4, 1].reverse(),
+    itemStyle: {color: '#6366f1', borderRadius: [0, 4, 4, 0]},
+    label: {show: true, position: 'right', fontSize: 12}
+  }]
+});
+
+// 商机推进状态分布
+var c5 = echarts.init(document.getElementById('chart_opp_status'));
+c5.setOption({
+  tooltip: {trigger: 'item'},
+  legend: {bottom: 0},
+  series: [{
+    type: 'pie',
+    radius: ['40%', '70%'],
+    center: ['50%', '45%'],
+    label: {show: true, formatter: '{b}
+{c}个', fontSize: 12},
+    data: [
+      {value: 11, name: '赢单成交', itemStyle: {color: '#10b981'}},
+      {value: 16, name: '待跟进续费/进行中', itemStyle: {color: '#2d5af0'}}
+    ]
+  }]
+});
+
+// 本周成单排行榜 TOP 10
+var c6 = echarts.init(document.getElementById('chart_top_won'));
+c6.setOption({
+  tooltip: {trigger: 'axis'},
+  grid: {left: 140, right: 30, top: 10, bottom: 20},
+  yAxis: {
+    type: 'category',
+    data: [
+      '永顺烊电脑车缝', '老鼎丰/家佳康', '大族粤铭/航同', '陕西京小盒', '康丽化妆品',
+      '苏州舜康商贸', '奇只好玩文化', '时代吉利动力', '广州养和医药', '广州健达贸易', '惠州酷友网络'
+    ],
+    axisLabel: {fontSize: 11}
+  },
+  xAxis: {type: 'value', axisLabel: {formatter: '¥{value}', fontSize: 10}},
+  series: [{
+    type: 'bar',
+    barWidth: 16,
+    data: [439, 439, 659, 699, 794.01, 999, 1299, 1878, 2000, 5192, 24480],
+    itemStyle: {
+      borderRadius: [0, 4, 4, 0],
+      color: function(p) {
+        return p.value >= 20000 ? '#10b981' : p.value >= 2000 ? '#2d5af0' : p.value >= 1000 ? '#6366f1' : '#f59e0b';
+      }
+    },
+    label: {show: true, position: 'right', formatter: '¥{c}', fontSize: 11}
+  }]
+});
+
+// 通话评分
+var c7 = echarts.init(document.getElementById('chart_call_score'));
+c7.setOption({
+  tooltip: {trigger: 'axis'},
+  grid: {left: 50, right: 20, top: 20, bottom: 40},
+  xAxis: {
+    type: 'category',
+    data: ['康丽化妆品', '未知线索大客', '未知线索2', 'GD595602023', 'SMB客户', '未知线索3', '吉利人才发展', '浅川02916', '其他2通'],
+    axisLabel: {fontSize: 10, rotate: 20}
+  },
+  yAxis: {type: 'value', min: 0, max: 100, axisLabel: {fontSize: 11}},
+  series: [{
+    type: 'bar',
+    barWidth: 26,
+    data: [
+      {value: 90, itemStyle: {color: '#10b981'}},
+      {value: 89, itemStyle: {color: '#10b981'}},
+      {value: 85, itemStyle: {color: '#10b981'}},
+      {value: 84, itemStyle: {color: '#10b981'}},
+      {value: 83, itemStyle: {color: '#10b981'}},
+      {value: 72, itemStyle: {color: '#f59e0b'}},
+      {value: 68, itemStyle: {color: '#f59e0b'}},
+      {value: 64, itemStyle: {color: '#f59e0b'}},
+      {value: 60, itemStyle: {color: '#94a3b8'}}
+    ],
+    label: {show: true, position: 'top', fontSize: 11}
+  }]
+});
+
+// 通话时长 vs 评分
+var c8 = echarts.init(document.getElementById('chart_call_scatter'));
+c8.setOption({
+  tooltip: {
+    trigger: 'item',
+    formatter: function(p) {
+      return p.data[2] + '<br>时长: ' + p.data[0] + ' 分钟<br>评分: ' + p.data[1] + ' 分';
+    }
+  },
+  grid: {left: 50, right: 20, top: 20, bottom: 40},
+  xAxis: {name: '时长(分)', type: 'value', axisLabel: {fontSize: 11}},
+  yAxis: {name: '质检评分', type: 'value', min: 40, max: 100, axisLabel: {fontSize: 11}},
+  series: [{
+    type: 'scatter',
+    symbolSize: function(d) { return Math.max(d[0] * 3, 14); },
+    data: [
+      [10.45, 90, '东莞市康丽化妆品'],
+      [10.2, 85, '未知线索大客'],
+      [3.88, 89, '未知客户'],
+      [3.23, 84, 'GD595602023'],
+      [2.76, 83, 'SMB客户包装需求'],
+      [7.86, 68, '时代吉利人才发展组'],
+      [2.1, 64, '浅川02916'],
+      [5.56, 67, '常规外呼'],
+      [3.78, 72, '常规外呼']
+    ],
+    itemStyle: {color: '#6366f1'},
+    label: {show: true, formatter: function(p){ return p.data[2]; }, position: 'top', fontSize: 10}
+  }]
+});
+
+// 桑基图
+var c9 = echarts.init(document.getElementById('chart_sankey'));
+c9.setOption({
+  tooltip: {trigger: 'item'},
+  series: [{
+    type: 'sankey',
+    layout: 'none',
+    emphasis: {focus: 'adjacency'},
+    nodeWidth: 20,
+    nodeGap: 12,
+    data: [
+      {name: 'KA企业定制方案', itemStyle: {color: '#6366f1'}},
+      {name: '版权风控与商用方案', itemStyle: {color: '#2d5af0'}},
+      {name: 'S0底价挽回策略', itemStyle: {color: '#ef4444'}},
+      {name: '个人升企业商用融合', itemStyle: {color: '#10b981'}},
+      {name: '惠州酷友网络', itemStyle: {color: '#94a3b8'}},
+      {name: '吉利汽车研究院', itemStyle: {color: '#94a3b8'}},
+      {name: '上海旺旺商贸', itemStyle: {color: '#94a3b8'}},
+      {name: '中美华东制药', itemStyle: {color: '#94a3b8'}},
+      {name: '中免三亚市内店', itemStyle: {color: '#94a3b8'}},
+      {name: '未续大客客户池', itemStyle: {color: '#94a3b8'}},
+      {name: '东莞康丽化妆品', itemStyle: {color: '#94a3b8'}},
+      {name: '广州健达贸易', itemStyle: {color: '#94a3b8'}},
+      {name: '已成交赢单', itemStyle: {color: '#10b981'}},
+      {name: '合同/打款流转中', itemStyle: {color: '#2d5af0'}},
+      {name: 'S0强力推进挽回', itemStyle: {color: '#f59e0b'}}
+    ],
+    links: [
+      {source: 'KA企业定制方案', target: '惠州酷友网络', value: 24},
+      {source: 'KA企业定制方案', target: '吉利汽车研究院', value: 11},
+      {source: '版权风控与商用方案', target: '上海旺旺商贸', value: 15},
+      {source: '版权风控与商用方案', target: '中美华东制药', value: 4},
+      {source: 'S0底价挽回策略', target: '中免三亚市内店', value: 4},
+      {source: 'S0底价挽回策略', target: '未续大客客户池', value: 10},
+      {source: '个人升企业商用融合', target: '东莞康丽化妆品', value: 1},
+      {source: '个人升企业商用融合', target: '广州健达贸易', value: 5},
+      {source: '惠州酷友网络', target: '已成交赢单', value: 24},
+      {source: '东莞康丽化妆品', target: '已成交赢单', value: 1},
+      {source: '广州健达贸易', target: '已成交赢单', value: 5},
+      {source: '吉利汽车研究院', target: '合同/打款流转中', value: 11},
+      {source: '上海旺旺商贸', target: '合同/打款流转中', value: 15},
+      {source: '中美华东制药', target: '合同/打款流转中', value: 4},
+      {source: '中免三亚市内店', target: '合同/打款流转中', value: 4},
+      {source: '未续大客客户池', target: 'S0强力推进挽回', value: 10}
+    ]
+  }]
+});
+
+window.addEventListener('resize', function(){
+  [c1, c2, c3, c4, c5, c6, c7, c8, c9].forEach(function(c){ if(c) c.resize(); });
+});
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(function(){ toast.style.display = 'none'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
