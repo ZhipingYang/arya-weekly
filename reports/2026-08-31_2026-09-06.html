@@ -570,6 +570,255 @@ tr:hover td{background:#f8fafc}
     font-size: 12px;
   }
 }
+
+/* ANCHOR TOC SUB-NAV */
+.subnav-sticky {
+  position: sticky;
+  top: 49px;
+  z-index: 90;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.subnav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.subnav-inner::-webkit-scrollbar { display: none; }
+.subnav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  text-decoration: none;
+  background: #f1f5f9;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.subnav-item:hover, .subnav-item.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* EXECUTIVE SUMMARY */
+.exec-summary {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  border: 1px solid rgba(45,90,240,0.12);
+}
+.exec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--border);
+}
+.exec-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.exec-tag {
+  background: #eff6ff;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.exec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.exec-item {
+  padding: 14px 16px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.exec-item.highlight {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+.exec-item.warning {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+}
+.exec-item.action {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+}
+.exec-item-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.exec-item.highlight .exec-item-title { color: #166534; }
+.exec-item.warning .exec-item-title { color: #92400e; }
+.exec-item.action .exec-item-title { color: #3730a3; }
+.exec-item-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #334155;
+}
+
+/* ENHANCED KPI WITH PROGRESS */
+.kpi-card {
+  position: relative;
+  padding: 18px 16px 14px;
+  text-align: left !important;
+}
+.kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.kpi-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.kpi-badge.success { background: #d1fae5; color: #065f46; }
+.kpi-badge.warning { background: #fef3c7; color: #92400e; }
+.kpi-badge.blue { background: #dbeafe; color: #1e40af; }
+.kpi-badge.purple { background: #ede9fe; color: #5b21b6; }
+.kpi-progress-wrap {
+  margin-top: 10px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  height: 5px;
+  overflow: hidden;
+  position: relative;
+}
+.kpi-progress-bar {
+  height: 100%;
+  border-radius: 10px;
+  transition: width .6s ease;
+}
+.kpi-progress-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+/* HIGH INTENT DEAL CARDS */
+.deal-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.deal-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all .2s ease;
+  position: relative;
+}
+.deal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  border-color: #cbd5e1;
+}
+.deal-card.p0-deal {
+  border-left: 4px solid var(--success);
+  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 40%);
+}
+.deal-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.deal-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.deal-card-amt {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--success);
+  white-space: nowrap;
+}
+.deal-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.deal-card-action {
+  font-size: 12px;
+  color: #475569;
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px dashed #e2e8f0;
+  line-height: 1.5;
+}
+
+/* SECTION ANCHOR OFFSET */
+.section {
+  scroll-margin-top: 105px;
+}
+
+@media (max-width: 768px) {
+  .subnav-sticky {
+    top: 43px;
+  }
+  .subnav-inner {
+    padding: 6px 12px;
+    gap: 6px;
+  }
+  .subnav-item {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+  .exec-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .deal-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .kpi-card {
+    padding: 12px 10px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -592,6 +841,24 @@ tr:hover td{background:#f8fafc}
   </div>
 </div>
 
+<!-- STICKY ANCHOR TOC SUB-NAV -->
+<div class="subnav-sticky">
+  <div class="subnav-inner">
+    <a href="#summary" class="subnav-item">⚡ 经营速览</a>
+    <a href="#sec1" class="subnav-item">1. 完成率</a>
+    <a href="#sec2" class="subnav-item">2. 高意向大客</a>
+    <a href="#sec3" class="subnav-item">3. 新增线索</a>
+    <a href="#sec4" class="subnav-item">4. 商机与订单</a>
+    <a href="#sec5" class="subnav-item">5. 续费与S0挽回</a>
+    <a href="#sec6" class="subnav-item">6. 演示与通话</a>
+    <a href="#sec7" class="subnav-item">7. 价值传递</a>
+    <a href="#sec8" class="subnav-item">8. 转化漏斗</a>
+    <a href="#sec9" class="subnav-item">9. 关键洞察</a>
+    <a href="#sec10" class="subnav-item">10. 过程复盘</a>
+    <a href="#sec11" class="subnav-item">11. 下周规划</a>
+  </div>
+</div>
+
 <div class="container">
 
 <!-- HEADER -->
@@ -601,29 +868,97 @@ tr:hover td{background:#f8fafc}
   <div class="badge">📈 本周新签 ¥35,562 | 续约 ¥4,414 | 总成交 ¥39,976 (4.0万) | 锁定待落地高意向 ¥37,040</div>
 </div>
 
+<!-- 核心亮点与经营摘要 (TL;DR 1分钟高管摘要) -->
+<div class="exec-summary" id="summary">
+  <div class="exec-header">
+    <div class="exec-title">⚡ 本周 1 分钟经营速览 (Executive Summary)</div>
+    <div class="exec-tag">第 36 周 · 稳步冲刺</div>
+  </div>
+  <div class="exec-grid">
+    <div class="exec-item highlight">
+      <div class="exec-item-title">🏆 本周高光 · KA大单突破</div>
+      <div class="exec-item-desc">
+        斩获 <b>惠州酷友网络 2.45万</b> 企业版新签，单客贡献占比 61.2%；健达贸易多席位复购 5.2k；全周成交 <b>¥39,976</b>（近 4.0 万）。
+      </div>
+    </div>
+    <div class="exec-item warning">
+      <div class="exec-item-title">🎯 待落地金矿 · 锁定 ¥37,040</div>
+      <div class="exec-item-desc">
+        <b>上海旺旺 (1.5万)</b> 合同审核、<b>吉利汽车研究院 (1.1万)</b> 排期打款中、中免集团 (3.8k) 锁定9月打款，高意向池蓄能充足。
+      </div>
+    </div>
+    <div class="exec-item action">
+      <div class="exec-item-title">🚀 破局战役 · 全面启动 S0 挽回</div>
+      <div class="exec-item-desc">
+        本周续约客单较低 (¥883)。下周针对本季度全部到期未续大客，<b>全面启动底价 S0 策略精准挽回</b>，严抓未接电话当日 100% 回访。
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- 模块一：任务完成率分析 -->
-<div class="section">
+<div class="section" id="sec1">
   <div class="section-title"><span class="num">1</span> 任务完成率分析</div>
   <div class="kpi-row">
     <div class="kpi-card blue">
-      <div class="kpi-label">本周线索数</div>
-      <div class="kpi-val">33</div>
-      <div class="kpi-label">SQL 14条 · 转商机 6条</div>
+      <div class="kpi-top">
+        <span class="kpi-label">本周线索承接</span>
+        <span class="kpi-badge blue">转化良好</span>
+      </div>
+      <div class="kpi-val">33 <span style="font-size:13px;font-weight:normal;color:var(--text2)">条</span></div>
+      <div class="kpi-progress-wrap">
+        <div class="kpi-progress-bar" style="width: 82%; background: var(--primary);"></div>
+      </div>
+      <div class="kpi-progress-text">
+        <span>SQL 14条 (42%)</span>
+        <span>转商机 6条</span>
+      </div>
     </div>
+
     <div class="kpi-card green">
-      <div class="kpi-label">成交总金额</div>
+      <div class="kpi-top">
+        <span class="kpi-label">成交总金额</span>
+        <span class="kpi-badge success">冲刺达标 80%</span>
+      </div>
       <div class="kpi-val">¥39,976</div>
-      <div class="kpi-label">13个去重订单 · 17笔明细</div>
+      <div class="kpi-progress-wrap">
+        <div class="kpi-progress-bar" style="width: 80%; background: var(--success);"></div>
+      </div>
+      <div class="kpi-progress-text">
+        <span>目标 ¥50,000</span>
+        <span>差额 ¥10,024</span>
+      </div>
     </div>
+
     <div class="kpi-card orange">
-      <div class="kpi-label">商机总金额</div>
+      <div class="kpi-top">
+        <span class="kpi-label">在推商机总额</span>
+        <span class="kpi-badge warning">蓄水充足</span>
+      </div>
       <div class="kpi-val">¥27,157</div>
-      <div class="kpi-label">27条商机 · 赢单11个</div>
+      <div class="kpi-progress-wrap">
+        <div class="kpi-progress-bar" style="width: 65%; background: var(--warning);"></div>
+      </div>
+      <div class="kpi-progress-text">
+        <span>27条商机</span>
+        <span>赢单 11 个</span>
+      </div>
     </div>
+
     <div class="kpi-card purple">
-      <div class="kpi-label">通话时长</div>
-      <div class="kpi-val">52 <span style="font-size:13px;font-weight:normal">分钟</span></div>
-      <div class="kpi-label">10通 · 均分75.6 · 深度3通</div>
+      <div class="kpi-top">
+        <span class="kpi-label">外呼通话时长</span>
+        <span class="kpi-badge purple">质检 75.6分</span>
+      </div>
+      <div class="kpi-val">52 <span style="font-size:13px;font-weight:normal;color:var(--text2)">分钟</span></div>
+      <div class="kpi-progress-wrap">
+        <div class="kpi-progress-bar" style="width: 52%; background: var(--value);"></div>
+      </div>
+      <div class="kpi-progress-text">
+        <span>10 通外呼</span>
+        <span>深度 3 通</span>
+      </div>
     </div>
   </div>
 
@@ -650,8 +985,80 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块二：重点跟进客户数据（核心重点与待落地大客户） -->
-<div class="section">
+<div class="section" id="sec2">
   <div class="section-title"><span class="num">2</span> 重点跟进客户数据（高意向待落袋客户池）</div>
+  
+  <!-- 核心重点大客户聚焦卡片 -->
+  <div class="deal-cards-grid">
+    <div class="deal-card p0-deal">
+      <div class="deal-card-header">
+        <div>
+          <span class="tag tag-ka">KA大企</span>
+          <span class="deal-card-name" style="margin-left:4px">上海旺旺商贸有限公司</span>
+        </div>
+        <div class="deal-card-amt">¥15,000</div>
+      </div>
+      <div class="deal-card-meta">
+        <span class="tag tag-won">合同审核中</span>
+        <span style="font-size:11px;color:var(--text2)">意向度：⭐⭐⭐⭐⭐</span>
+      </div>
+      <div class="deal-card-action">
+        <b>当前卡点与动作：</b>法务与合同审批流转中，每日主动跟进审批进度，确保本周完成盖章闭环。
+      </div>
+    </div>
+
+    <div class="deal-card p0-deal">
+      <div class="deal-card-header">
+        <div>
+          <span class="tag tag-ka">KA大企</span>
+          <span class="deal-card-name" style="margin-left:4px">吉利汽车研究院（宁波）有限公司</span>
+        </div>
+        <div class="deal-card-amt">¥11,000</div>
+      </div>
+      <div class="deal-card-meta">
+        <span class="tag tag-won">排期打款中</span>
+        <span style="font-size:11px;color:var(--text2)">意向度：⭐⭐⭐⭐⭐</span>
+      </div>
+      <div class="deal-card-action">
+        <b>当前卡点与动作：</b>已顺利过采购审批，财务排期付款中，紧密对接接口人锁定到账流水凭证。
+      </div>
+    </div>
+
+    <div class="deal-card" style="border-left: 4px solid var(--primary);">
+      <div class="deal-card-header">
+        <div>
+          <span class="tag tag-ka">上市医药</span>
+          <span class="deal-card-name" style="margin-left:4px">杭州中美华东制药有限公司</span>
+        </div>
+        <div class="deal-card-amt" style="color:var(--primary)">¥3,600</div>
+      </div>
+      <div class="deal-card-meta">
+        <span class="tag tag-prog">26年续费审核</span>
+        <span style="font-size:11px;color:var(--text2)">意向度：⭐⭐⭐⭐</span>
+      </div>
+      <div class="deal-card-action">
+        <b>当前卡点与动作：</b>续费合同审核中，针对26年提前锁定与服务条款核对，跟进用印盖章。
+      </div>
+    </div>
+
+    <div class="deal-card" style="border-left: 4px solid var(--primary);">
+      <div class="deal-card-header">
+        <div>
+          <span class="tag tag-ka">央国企/免税</span>
+          <span class="deal-card-name" style="margin-left:4px">中免集团三亚市内免税店</span>
+        </div>
+        <div class="deal-card-amt" style="color:var(--primary)">¥3,840</div>
+      </div>
+      <div class="deal-card-meta">
+        <span class="tag tag-prog">锁定9月底</span>
+        <span style="font-size:11px;color:var(--text2)">意向度：⭐⭐⭐⭐</span>
+      </div>
+      <div class="deal-card-action">
+        <b>当前卡点与动作：</b>客户已确认采购意向，配合请款预算节点，锁定9月底批次打款入账。
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="table-scroll-hint">👈 左右滑动查看完整表格 👉</div>
     <div class="table-responsive">
@@ -742,7 +1149,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块三：本周新增意向客户 -->
-<div class="section">
+<div class="section" id="sec3">
   <div class="section-title"><span class="num">3</span> 本周新增意向客户与线索沉淀</div>
   <div class="chart-grid">
     <div class="chart-box">
@@ -826,7 +1233,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块四：本周商机订单沉淀 -->
-<div class="section">
+<div class="section" id="sec4">
   <div class="section-title"><span class="num">4</span> 本周商机与订单沉淀</div>
   <div class="kpi-row">
     <div class="kpi-card green">
@@ -975,7 +1382,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块五：续费客户·大企跟进明细 -->
-<div class="section">
+<div class="section" id="sec5">
   <div class="section-title"><span class="num">5</span> 续费客户·大企跟进明细及挽回战役</div>
   <div class="card">
     <div class="table-scroll-hint">👈 左右滑动查看完整表格 👉</div>
@@ -1055,7 +1462,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块六：演示客户·价值传递深度分析 -->
-<div class="section">
+<div class="section" id="sec6">
   <div class="section-title"><span class="num">6</span> 演示客户·价值传递深度分析（真实通话诊断）</div>
   <div class="chart-grid">
     <div class="chart-box">
@@ -1092,7 +1499,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块七：价值传递路径总览 -->
-<div class="section">
+<div class="section" id="sec7">
   <div class="section-title"><span class="num">7</span> 价值传递路径总览</div>
   <div class="chart-box">
     <div class="chart-title">价值传递策略 → 重点客户 → 推进阶段（桑基图）</div>
@@ -1146,7 +1553,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块八：核心指标概览与转化漏斗 -->
-<div class="section">
+<div class="section" id="sec8">
   <div class="section-title"><span class="num">8</span> 核心指标快照与经营漏斗</div>
   <div class="card">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px">
@@ -1178,7 +1585,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块九：关键洞察与策略调整 -->
-<div class="section">
+<div class="section" id="sec9">
   <div class="section-title"><span class="num">9</span> 关键洞察与策略调整</div>
   <div class="insight-card">
     <h4>🔥 洞察一：大型KA客户攻坚成效斐然</h4>
@@ -1195,7 +1602,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块十：本周过程展示 -->
-<div class="section">
+<div class="section" id="sec10">
   <div class="section-title"><span class="num">10</span> 本周过程展示（8/31 — 9/6）</div>
   <div class="card">
     <div class="timeline">
@@ -1249,7 +1656,7 @@ tr:hover td{background:#f8fafc}
 </div>
 
 <!-- 模块十一：数据驱动·下周提升计划 -->
-<div class="section">
+<div class="section" id="sec11">
   <div class="section-title"><span class="num">11</span> 数据驱动·下周提升计划</div>
   <div class="card">
     <h4 style="color:var(--danger);margin-bottom:10px;font-size:14px">📊 关键指标缺口与改进措施</h4>
@@ -1715,6 +2122,28 @@ c9.setOption({
 
 window.addEventListener('resize', function(){
   [c1, c2, c3, c4, c5, c6, c7, c8, c9].forEach(function(c){ if(c) c.resize(); });
+});
+
+
+// Subnav active indicator on scroll
+window.addEventListener('scroll', function() {
+  var sections = document.querySelectorAll('.section, .exec-summary');
+  var scrollPos = window.scrollY + 120;
+  var currentId = '';
+  
+  sections.forEach(function(sec) {
+    if (sec.offsetTop <= scrollPos) {
+      currentId = sec.id;
+    }
+  });
+
+  document.querySelectorAll('.subnav-item').forEach(function(link) {
+    if (link.getAttribute('href') === '#' + currentId) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 });
 
 function copyLink() {
