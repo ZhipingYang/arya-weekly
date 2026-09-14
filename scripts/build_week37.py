@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+# -*- coding: utf-8 -*-
+import openpyxl
+import json
+
+wb = openpyxl.load_workbook('data/2026-09-07_2026-09-13/crm_weekly_export.xlsx', data_only=True)
+
+html_content = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -1509,7 +1515,7 @@ chartOrderType.setOption({
       { value: 2, name: '新签订单', itemStyle: { color: '#10b981' } }
     ],
     label: {
-      formatter: function(p) { return p.name + '\n' + p.value + '笔'; }
+      formatter: function(p) { return p.name + '\\n' + p.value + '笔'; }
     }
   }]
 });
@@ -1551,7 +1557,7 @@ chartLeadGrade.setOption({
       { value: 1, name: '转商机', itemStyle: { color: '#10b981' } }
     ],
     label: {
-      formatter: function(p) { return p.name + '\n' + p.value + '条'; }
+      formatter: function(p) { return p.name + '\\n' + p.value + '条'; }
     }
   }]
 });
@@ -1592,7 +1598,7 @@ chartOppStatus.setOption({
       { value: 5, name: '已赢单商机', itemStyle: { color: '#10b981' } }
     ],
     label: {
-      formatter: function(p) { return p.name + '\n' + p.value + '个'; }
+      formatter: function(p) { return p.name + '\\n' + p.value + '个'; }
     }
   }]
 });
@@ -1737,3 +1743,13 @@ window.addEventListener('resize', function() {
 </script>
 </body>
 </html>
+"""
+
+with open('reports/2026-09-07_2026-09-13.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+# Update index.html to be the latest week 37 report
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("Generated reports/2026-09-07_2026-09-13.html and updated index.html successfully!")
